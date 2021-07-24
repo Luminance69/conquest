@@ -1,0 +1,36 @@
+#HeroPortraits {
+    width: 362px;
+    height: 650px;
+    margin-top: 150px;
+    flow-children: down;
+}
+.PlayerPortrait {
+    background-color: blue;
+    height: 80px;
+    width: 362px;
+    margin-bottom: 10px;
+}
+#HeroImage {
+    width: 142px;
+    height: 80px;
+    background-color: black;
+}
+#PlayerName {
+    color: white;
+    font-size: 25px;
+    margin-top: 10px;
+    margin-left: 152px;
+}
+.HealthContainer {
+    width: 200px;
+    height: 20px;
+    x: 152px;
+    y: 50px;
+    background-color: black;
+}
+#HealthBar {
+    height: 20px;
+    width: 50%;
+
+    background-color: green;
+}

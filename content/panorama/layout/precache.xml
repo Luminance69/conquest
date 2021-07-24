@@ -1,0 +1,19 @@
+<root>
+    <Panel style="visibility: collapse;" hittest="false" >
+    </Panel>
+</root>
+
+<!--
+
+"file://{images}/custom_game/team_icons/team_icon_tiger_01.png"
+"file://{images}/custom_game/team_icons/team_icon_monkey_01.png"
+"file://{images}/custom_game/team_icons/team_icon_dragon_01.png"
+"file://{images}/custom_game/team_icons/team_icon_dog_01.png"
+"file://{images}/custom_game/team_icons/team_icon_rooster_01.png"
+"file://{images}/custom_game/team_icons/team_icon_ram_01.png"
+"file://{images}/custom_game/team_icons/team_icon_rat_01.png"
+"file://{images}/custom_game/team_icons/team_icon_boar_01.png"
+"file://{images}/custom_game/team_icons/team_icon_snake_01.png"
+"file://{images}/custom_game/team_icons/team_icon_horse_01.png"
+
+-->

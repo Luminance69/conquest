@@ -1,0 +1,136 @@
+#TimeOfDayBG {
+	z-index: 2;
+	width: 90px;
+	height: 46px;
+	background-image: url("file://{resources}/images/custom_game/import_dota/bg_timer_psd.png");
+	background-size: 100%;
+	visibility: visible;
+	horizontal-align: center;
+}
+
+#TimeOfDay {
+	z-index: 2;
+	width: 80px;
+	height: 82px;
+	vertical-align: top;
+	background-size: cover;
+	horizontal-align: center;
+}
+
+.DayTime #DayGlow {
+	visibility: visible;
+}
+
+.NightTime #NightGlow {
+	visibility: visible;
+}
+
+.TimeOfDayIcon {
+	z-index: 50;
+	width: 23px;
+	height: 23px;
+	margin-top: 2px;
+	background-size: cover;
+	horizontal-align: center;
+}
+
+.DayIcon {
+	background-image: url("file://{resources}/images/custom_game/import_dota/icon_sun_psd.png");
+}
+
+.NightIcon {
+	background-image: url("file://{resources}/images/custom_game/import_dota/icon_moon_psd.png");
+	transform: scaleX(-1);
+}
+
+#GameTime {
+	width: 200px;
+	margin-top: 23px;
+	font-family: "RadianceM";
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	color: white;
+	text-align: center;
+	vertical-align: top;
+	horizontal-align: center;
+}
+
+.LowVisualQuality #GameTime {
+	text-shadow: 1px 1px 0 2 rgba(0, 0, 0, 0.06667);
+}
+
+#DayGlow {
+	z-index: 2;
+	width: 90px;
+	height: 46px;
+	vertical-align: top;
+	background-image: url("file://{resources}/images/custom_game/import_dota/glow_day_psd.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	visibility: collapse;
+	animation-duration: 2.94s;
+	animation-iteration-count: infinite;
+	animation-name: DayNightPulse;
+	animation-timing-function: linear;
+	horizontal-align: center;
+}
+
+#NightGlow {
+	z-index: 2;
+	width: 90px;
+	height: 46px;
+	vertical-align: top;
+	background-image: url("file://{resources}/images/custom_game/import_dota/glow_night_psd.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	visibility: collapse;
+	animation-duration: 2.94s;
+	animation-iteration-count: infinite;
+	animation-name: DayNightPulse;
+	animation-timing-function: linear;
+	horizontal-align: center;
+}
+
+.AltPressed #TimeUntil,
+.AltPressed #WeatherTime {
+	opacity: 1;
+	transform: translateY(0);
+}
+.LowVisualQuality #TimeUntil {
+	text-shadow: 1px 1px 0 2 rgba(0, 0, 0, 0.26667);
+}
+#TimeUntil {
+	margin-top: 60px;
+	font-family: "RadianceM", "Radiance";
+	font-size: 14px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	color: white;
+	text-shadow: 1px 1px 0 2 rgba(0, 0, 0, 0.26667);
+	text-transform: uppercase;
+	opacity: 0;
+	transform: translateY(-4px);
+	transition-duration: 0.18s;
+	transition-property: transform, opacity;
+	transition-timing-function: ease-in-out;
+	align: center top;
+}
+
+.ShowTimeUntil #TimeUntil {
+	opacity: 1;
+	transform: translateY(0);
+}
+@keyframes 'DayNightPulse' {
+	0% {
+		opacity: 0.1;
+	}
+
+	50% {
+		opacity: 0.3;
+	}
+
+	100% {
+		opacity: 0.1;
+	}
+}

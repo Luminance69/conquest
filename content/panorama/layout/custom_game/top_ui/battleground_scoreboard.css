@@ -1,0 +1,54 @@
+#BGScore
+{
+	horizontal-align: center;
+	margin-top: 6px;
+	flow-children: right;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #000000B0 ), to( #000000E0 ) );
+	box-shadow: #000000ff -5px -5px 10px 10px;
+	visibility: collapse;
+}
+
+.BGScoreRow
+{
+	margin-top: 4px;
+	margin-bottom: 2px;
+	margin-left: 4px;
+	margin-right: 4px;
+	flow-children: up;
+}
+
+#BGScoreLabel1
+{
+	color: #F3CE4CFF;
+}
+
+.BGScoreLabel
+{
+	margin-top: 4px;
+	color: #FFFFFFFF;
+	vertical-align: center;
+	horizontal-align: center;
+	text-align: center;
+	font-size: 18;
+	font-weight: bold;
+	font-family: "DejaVu Sans";
+	text-shadow: 2px 2px 8px 3.0 #000000FF;
+}
+
+.BGScoreHeroIcon
+{
+	height: 28px;
+	vertical-align: center;
+	box-shadow: #000000ff -3px -3px 8px 6px;
+}
+
+.disconnected
+{
+	saturation: 0.0;
+}
+
+.abandoned
+{
+	saturation: 0.7;
+	wash-color: #FF0000E0;
+}

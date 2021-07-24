@@ -1,0 +1,30 @@
+"lang"
+{
+	"Language"		"English"
+	"Tokens"
+	{		
+		"addon_game_name"												"Conquest"
+
+
+		"DOTA_Custom1"													"Northern Invaders"
+		"DOTA_Custom2"													"Eastern Spirits"
+		"DOTA_Custom3"													"Southern Hunters"
+		"DOTA_Custom4"													"Western Marauders"
+		
+		
+		"npc_dota_downfall_ancient"										"Ancient"
+		"npc_dota_downfall_fountain"									"Fountain"
+
+		"DOTA_Tooltip_modifier_downfall_ancient_degen"					"Degeneration"
+		"DOTA_Tooltip_modifier_downfall_ancient_degen_description"		"Losing 25 hp per second."
+
+		"DOTA_Tooltip_modifier_fortnite"								"Sudden Death"
+		"DOTA_Tooltip_modifier_fortnite_description"					"Straying too far from the maps centre will cause you to take some damage.<br>Current lore experts are unable to pinpoint the exact cause of this, although some suspect it may be related to the popular video game known as 'Fortnite'."
+
+		"DOTA_Tooltip_modifier_fountain_healing_aura"					"Fountain regen"
+		"DOTA_Tooltip_modifier_fountain_healing_aura_description"		"Regenerating 10% hp and mana per second."
+		
+		"DOTA_Tooltip_modifier_curfew" 									"Curfew"
+		"DOTA_Tooltip_modifier_curfew_description" 						"During the first 5 minutes of the game, you cannot enter enemy bases.<br><br>MEE-MEE-MEE-MEE-MEEP MERP"
+	}
+}

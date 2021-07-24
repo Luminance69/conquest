@@ -1,0 +1,8 @@
+down_fall
+{
+	material materials/overviews/down_fall.vmat
+	pos_x -12379
+	pos_y 12379
+	scale 24.000
+}
+

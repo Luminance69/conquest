@@ -1,0 +1,32 @@
+<root>
+	<styles>
+		<include src="s2r://panorama/styles/dotastyles.vcss_c" />
+		<include src="file://{resources}/layout/custom_game/hero_select/multiteam_hero_select_overlay.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/layout/custom_game/scripts/utils.js" />
+		<include src="file://{resources}/layout/custom_game/hero_select/multiteam_hero_select_overlay.js" />
+		
+	</scripts>
+
+	<Panel class="HeroSelectOverlayRoot" hittest="false">
+		<Panel id="HeroSelectTeamsContainer">
+			<Panel>
+				<Panel class="EndSpacer" />
+				<Panel class="EndSpacer" />
+			</Panel>
+			<Panel>
+				<Panel class="EndSpacer" />
+				<Panel class="EndSpacer" />
+			</Panel>
+		</Panel>
+
+		<Panel id="TimerPanel">
+			<Image id="TimerBg" src="s2r://panorama/images/status_icons/timer_background_psd.vtex" />
+			<Image id="TimerRing" src="s2r://panorama/images/status_icons/timer_ring_psd.vtex" />
+			<Label id="Timer" text="#HeroSelectionTimer" />
+			<Label id="TimerLabel" />
+		</Panel>
+	</Panel>
+</root>
