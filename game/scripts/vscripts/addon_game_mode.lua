@@ -94,8 +94,11 @@ function GameMode:ExecuteOrderFilter(data)
 	end
 
     -- This should hopefully prevent players using enemy couriers
-    if unit:IsCourier() and unit:GetPlayerOwnerID() ~= player_id then
-        return false
+    for _,unit in pairs(data.units) do
+		unit = EntIndexToHScript(data.units["0"])
+        if unit:IsCourier() and unit:GetPlayerOwnerID() ~= player_id then
+            return false
+        end
     end
 	
 	return true
