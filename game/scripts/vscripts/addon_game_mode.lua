@@ -458,29 +458,25 @@ function GameMode:SpawnCamps()
 
         local modifier = spawner:FindModifierByName("modifier_neutral_camp")
 
-        local neutrals = {}
-        for _,neutral in pairs(modifier.neutrals) do
-            if neutral and not neutral:IsNull() and neutral:IsAlive() then
-                table.insert(neutrals, neutral)
-            end
-        end
-
         local neutral_camp_spawning = modifier.neutral_spawns[tostring(RandomInt(0, Util:GetKVLength(modifier.neutral_spawns)-1))]
 
         local neutral_camp_spawn_count = Util:GetKVLength(neutral_camp_spawning)
 
         local neutral_camp_spawn_limit = modifier.camp_type == "ancient" and _G.MAX_CREEPS_PER_ANCIENT_CAMP or _G.MAX_CREEPS_PER_NORMAL_CAMP
 
-        if #neutrals <= (neutral_camp_spawn_limit - neutral_camp_spawn_count) then -- If spawning this camp would bring total creep count over the limit then bail
+        if #modifier.neutrals <= (neutral_camp_spawn_limit - neutral_camp_spawn_count) then -- If spawning this camp would bring total creep count over the limit then bail
             for i = 0, neutral_camp_spawn_count do
                 local neutral = CreateUnitByName(neutral_camp_spawning[tostring(i)], modifier.origin, true, nil, nil, DOTA_TEAM_NEUTRALS)
-                table.insert(neutrals, neutral)
+                table.insert(modifier.neutrals, neutral)
             end
         end
         
-        sid = sid + 1
-
-        return FrameTime()
+        if sid < #self.spawners then
+            sid = sid + 1
+            return FrameTime()
+        else
+            return
+        end
     end)
 end
 
