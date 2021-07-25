@@ -1,6 +1,6 @@
 "AddonInfo"
 {
-	"maps"			"6v6v6v6 3v3v3v3"
+	"maps"			"3v3v3v3 6v6v6v6"
 	"IsPlayable"	"1"
 	"EnablePickRules"    "1"
 	"HeroGuidesSupported" "1"
