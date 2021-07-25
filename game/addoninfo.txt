@@ -1,6 +1,6 @@
 "AddonInfo"
 {
-	"maps"			"6v6v6v6"
+	"maps"			"6v6v6v6 3v3v3v3"
 	"IsPlayable"	"1"
 	"EnablePickRules"    "1"
 	"HeroGuidesSupported" "1"
@@ -9,5 +9,10 @@
 	"6v6v6v6"
 	{
 		"MaxPlayers"		"24"
+	}
+	
+	"3v3v3v3"
+	{
+		"MaxPlayers"		"12"
 	}
 }

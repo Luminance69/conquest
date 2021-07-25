@@ -20,12 +20,14 @@ PRE_GAME_TIME = IsInToolsMode() and 5 or 15
 FARMING_PHASE_TIME = IsInToolsMode() and 60 or 5 * 60
 FIGHTING_PHASE_TIME = IsInToolsMode() and 15 or 20 * 60
 CREEP_SPAWN_FREQUENCY = IsInToolsMode() and 5 or 60
+MAX_PLAYERS_PER_TEAM = GetMapName() == "6v6v6v6" and 6 or GetMapName() == "3v3v3v3" and 3 or 6
+BANS_PER_TEAM = math.ceil(MAX_PLAYERS_PER_TEAM/2)
 
 _G.MAX_CREEPS_PER_NORMAL_CAMP = 12
 _G.MAX_CREEPS_PER_ANCIENT_CAMP = 9
 _G.NEUTRAL_SPAWNS = LoadKeyValues("scripts/kv/neutral_spawns.kv")
-_G.NEUTRAL_ITEM_DROP_CHANCE = {0.1, 0.05}
-_G.NEUTRAL_ITEMS_PER_TIER = 6
+_G.NEUTRAL_ITEM_DROP_CHANCE = {0.6 / MAX_PLAYERS_PER_TEAM, 0.3 / MAX_PLAYERS_PER_TEAM}
+_G.NEUTRAL_ITEMS_PER_TIER = MAX_PLAYERS_PER_TEAM
 _G.NEUTRAL_ITEM_TIMERS = IsInToolsMode() and {0, 0.2, 0.4, 0.6, 0.8} or {0, 5, 10, 15, 25}
 _G.NEUTRAL_ITEMS = LoadKeyValues("scripts/kv/neutral_items.kv")
 
@@ -46,10 +48,10 @@ function GameMode:InitGameMode()
 
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 6)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 6)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_3, 6)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_4, 6)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, MAX_PLAYERS_PER_TEAM)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, MAX_PLAYERS_PER_TEAM)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_3, MAX_PLAYERS_PER_TEAM)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_4, MAX_PLAYERS_PER_TEAM)
 
     GameRules:SetShowcaseTime(0)
     GameRules:SetHeroSelectionTime(HERO_SELECTION_TIME)
@@ -59,7 +61,7 @@ function GameMode:InitGameMode()
     GameRules:SetUseUniversalShopMode(true)
     GameRules:SetStartingGold(1500)
     GameRules:SetUseBaseGoldBountyOnHeroes(true)
-    GameRules:SetCustomGameBansPerTeam(3)
+    GameRules:SetCustomGameBansPerTeam(BANS_PER_TEAM)
 
 	game_entity:SetDraftingBanningTimeOverride(IsInToolsMode() and 0 or 10)
 
@@ -94,8 +96,11 @@ function GameMode:ExecuteOrderFilter(data)
 	end
 
     -- This should hopefully prevent players using enemy couriers
-    if unit:IsCourier() and unit:GetPlayerOwnerID() ~= player_id then
-        return false
+    for _,unit in pairs(data.units) do
+		unit = EntIndexToHScript(data.units["0"])
+        if unit:IsCourier() and unit:GetPlayerOwnerID() ~= player_id then
+            return false
+        end
     end
 	
 	return true
@@ -110,7 +115,7 @@ function GameMode:OnStateChange()
         self.game_started = false
         self.sudden_death = false
         if not IsInToolsMode() then
-            Convars:SetFloat("host_timescale", 0.2)
+            Convars:SetFloat("host_timescale", 0.25)
         end
         Timers:CreateTimer((IsInToolsMode() and 2 or 10), function() self:OnGameStart() end)
     end
@@ -236,7 +241,7 @@ end
 function GameMode:OnNpcSpawned(event)
     local unit = EntIndexToHScript(event.entindex)
 
-    if unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS and unit:IsBaseNPC() and unit:GetPlayerOwner() ~= nil then
+    if unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS and unit:IsCreature() and unit:GetPlayerOwner() ~= nil then
         unit:AddNewModifier(unit, nil, "modifier_curfew", {farmingPhaseTime = FARMING_PHASE_TIME})
         unit:AddNewModifier(unit, nil, "modifier_super_fast", {})
 
