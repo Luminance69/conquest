@@ -46,6 +46,7 @@ function GameMode:InitGameMode()
 
 	game_entity:SetModifierGainedFilter(Dynamic_Wrap(GameMode, "ModifierGainedFilter"), self)
 	game_entity:SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter"), self)
+	game_entity:SetItemAddedToInventoryFilter(Dynamic_Wrap(GameMode, "ItemAddedToInventoryFilter"), self)
 
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
@@ -68,6 +69,12 @@ function GameMode:InitGameMode()
 
     game_entity:SetBuybackEnabled(false)
     game_entity:SetRespawnTimeScale(0.5)
+
+    self.alive_player_ids = {}
+
+    for i=0, MAX_PLAYERS_PER_TEAM * 4 - 1 do
+        self.alive_player_ids[i] = true
+    end
 end
 
 function GameMode:ModifierGainedFilter(data)
@@ -105,6 +112,36 @@ function GameMode:ExecuteOrderFilter(data)
     end
 	
 	return true
+end
+
+function GameMode:ItemAddedToInventoryFilter(data)
+    local owner_index = data.inventory_parent_entindex_const
+    local item_index = data.item_entindex_const
+    
+    if not owner_index or not item_index then return end
+
+    local owner = EntIndexToHScript(owner_index)
+    local item = EntIndexToHScript(item_index)
+
+    if IsValidEntity(item) and IsValidEntity(owner) then
+        local player_id = owner:GetPlayerOwnerID()
+        if player_id and not self.alive_player_ids[player_id] then
+            if item:IsNeutralDrop() then
+                local item_name = item:GetAbilityName()
+
+                local new_item = CreateItem(item_name, owner, owner)
+
+                PlayerResource:AddNeutralItemToStash(player_id, owner:GetTeamNumber(), new_item)
+
+                return false
+            else
+                owner:ModifyGold(item:GetCost(), false, 0)
+
+                return false
+            end
+        end
+    end
+    return true
 end
 
 function GameMode:OnStateChange()
@@ -331,6 +368,28 @@ function GameMode:OnNpcKilled(event)
 
     if Util:IsMainHero(unit) then
         if self.teams[team]["ancient_alive"] == false then
+            -- Teleport neutral items to stash            
+            local player_id = unit:GetPlayerOwnerID()
+
+            if player_id and player_id ~= -1 then
+                local item_slots = {6, 7, 8, 9, 10, 11, 12, 13, 14, 16}
+
+                for _,slot in pairs(item_slots) do
+                    local item = unit:GetItemInSlot(slot)
+                    
+                    if item and item:IsNeutralDrop() then
+                        local item_name = item:GetAbilityName()
+
+                        local new_item = CreateItem(item_name, unit, unit)
+                    
+                        unit:RemoveItem(item)
+
+                        PlayerResource:AddNeutralItemToStash(player_id, team, new_item)
+                    end
+                end
+                self.alive_player_ids[player_id] = false
+            end
+
             self.teams[team]["players_eliminated"] = self.teams[team]["players_eliminated"] + 1
 
             if self.teams[team]["players_eliminated"] == #self.teams[team]["heroes"] then
