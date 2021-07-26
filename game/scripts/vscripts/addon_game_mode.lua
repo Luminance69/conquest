@@ -141,6 +141,7 @@ function GameMode:ItemAddedToInventoryFilter(data)
             end
         end
     end
+    
     return true
 end
 
