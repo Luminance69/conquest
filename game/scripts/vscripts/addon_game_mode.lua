@@ -17,11 +17,12 @@ LinkLuaModifier("modifier_neutral_ai", "modifiers/neutral_ai", LUA_MODIFIER_MOTI
 
 HERO_SELECTION_TIME = 45
 PRE_GAME_TIME = IsInToolsMode() and 5 or 15
-FARMING_PHASE_TIME = IsInToolsMode() and 60 or 5 * 60
-FIGHTING_PHASE_TIME = IsInToolsMode() and 15 or 20 * 60
+FARMING_PHASE_TIME = IsInToolsMode() and 15 or 5 * 60
+FIGHTING_PHASE_TIME = IsInToolsMode() and 15 or 25 * 60
 CREEP_SPAWN_FREQUENCY = IsInToolsMode() and 5 or 60
 MAX_PLAYERS_PER_TEAM = GetMapName() == "6v6v6v6" and 6 or GetMapName() == "3v3v3v3" and 3 or 6
 BANS_PER_TEAM = math.ceil(MAX_PLAYERS_PER_TEAM/2)
+ANCIENT_MAX_HP = MAX_PLAYERS_PER_TEAM * 1500 * 5
 
 _G.MAX_CREEPS_PER_NORMAL_CAMP = 12
 _G.MAX_CREEPS_PER_ANCIENT_CAMP = 9
@@ -180,6 +181,14 @@ function GameMode:OnGameStart()
         end
     end
 
+    local ancients = self:GetAllAncients()
+
+    for _,ancient in pairs(ancients) do
+        ancient:SetBaseMaxHealth(ANCIENT_MAX_HP)
+        ancient:SetMaxHealth(ANCIENT_MAX_HP)
+        ancient:SetHealth(ANCIENT_MAX_HP)
+    end
+
     Convars:SetFloat("host_timescale", 1)
     self.game_started = true
 end
@@ -204,7 +213,7 @@ function GameMode:OnStartFighting()
 
     for _,ancient in pairs(ancients) do
         ancient:RemoveModifierByName("modifier_invulnerable")
-        ancient:AddNewModifier(ancient, nil, "modifier_ancient_degen", {fightingPhaseTime = FIGHTING_PHASE_TIME})
+        ancient:AddNewModifier(ancient, nil, "modifier_ancient_degen", {fightingPhaseTime = FIGHTING_PHASE_TIME, maxHealth = ANCIENT_MAX_HP})
     end
 end
 
@@ -241,7 +250,7 @@ end
 function GameMode:OnNpcSpawned(event)
     local unit = EntIndexToHScript(event.entindex)
 
-    if unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS and unit:IsCreature() and unit:GetPlayerOwner() ~= nil then
+    if unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS and unit:IsBaseNPC() and unit:GetPlayerOwner() ~= nil then
         unit:AddNewModifier(unit, nil, "modifier_curfew", {farmingPhaseTime = FARMING_PHASE_TIME})
         unit:AddNewModifier(unit, nil, "modifier_super_fast", {})
 
@@ -259,7 +268,7 @@ end
 function GameMode:OnNpcKilled(event)
     local unit = EntIndexToHScript(event.entindex_killed)
 
-    if not unit then return end
+    if not unit or unit:IsNull() then return end
 
     team = unit:GetTeamNumber()
 
@@ -267,7 +276,7 @@ function GameMode:OnNpcKilled(event)
         self:OnAncientDestroyed(team)
     end
 
-    if team == DOTA_TEAM_NEUTRALS then
+    if team == DOTA_TEAM_NEUTRALS and unit:IsBaseNPC() then
         local killer = EntIndexToHScript(event.entindex_attacker)
 
         if Util:IsMainHero(killer) then

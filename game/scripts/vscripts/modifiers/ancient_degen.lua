@@ -9,8 +9,9 @@ function modifier_ancient_degen:OnCreated(keys)
     self.next_time = 0
 
     local fightingPhaseTime = keys.fightingPhaseTime
+    local maxHealth = keys.maxHealth
 
-    self.degen = math.floor(self.parent:GetMaxHealth() / fightingPhaseTime)
+    self.degen = math.floor(maxHealth / fightingPhaseTime)
 
     self:StartIntervalThink(1)
 end

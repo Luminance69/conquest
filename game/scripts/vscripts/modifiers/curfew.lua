@@ -18,7 +18,7 @@ function modifier_curfew:OnCreated(keys)
 end
 
 function modifier_curfew:OnIntervalThink()
-    if not self.parent or not self.team then
+    if not self.parent or self.parent:IsNull() or not self.team then
         self:Destroy()
         return
     end

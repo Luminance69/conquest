@@ -23,6 +23,7 @@ function modifier_fortnite:OnCreated(keys)
 end
 
 function modifier_fortnite:OnIntervalThink()
+    if not self.fortnite_time then return end
 
     local radius = math.max(9000 - (GameRules:GetDOTATime(false, false) - self.fortnite_time) * 6000 / 300, 3000)
 
